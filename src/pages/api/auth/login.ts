@@ -10,9 +10,9 @@ import { verifyTurnstile } from '@/lib/turnstile';
 
 // @para-doc [#csa-auth-login]
 export const POST: APIRoute = async (context) => {
+  const runtimeEnv = env || (context.locals as any)?.runtime?.env;
   try {
     // 0. Resolve Cloudflare Pages / Workers runtime environment
-    const runtimeEnv = env || (context.locals as any)?.runtime?.env;
 
     // Check rate limiting first using Cloudflare KV namespace
     const clientIp = context.request.headers.get("CF-Connecting-IP") || context.clientAddress || "127.0.0.1";
