@@ -244,7 +244,7 @@ const nonce = Astro.locals.nonce;
       </div>
     </div>
 
-    <script>
+    <script nonce={nonce}>
       const form = document.getElementById('loginForm') as HTMLFormElement;
       const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement;
       const btnSpinner = document.getElementById('btnSpinner') as HTMLSpanElement;
