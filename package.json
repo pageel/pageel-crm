@@ -1,7 +1,7 @@
 {
   "name": "pageel-crm",
   "type": "module",
-  "version": "0.13.2",
+  "version": "0.13.7",
   "engines": {
     "node": ">=22.12.0"
   },
