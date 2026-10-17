@@ -155,6 +155,7 @@ export const GET = async (context: APIContext): Promise<Response> => {
         content: row.order.content,
         taxInvoiceNumber: row.order.taxInvoiceNumber,
         taxInvoiceDate: row.order.taxInvoiceDate,
+        months: row.order.months || 1,
       } : null,
       serviceName: row.service ? row.service.name : null,
       serviceDescription: row.service ? row.service.description : null,

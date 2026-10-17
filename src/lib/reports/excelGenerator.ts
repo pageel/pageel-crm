@@ -21,6 +21,7 @@ export interface ExportPayment {
     content: string;
     taxInvoiceNumber?: string | null;
     taxInvoiceDate?: number | null;
+    months?: number;
   } | null;
   serviceName?: string | null;
   serviceDescription?: string | null;
@@ -53,11 +54,17 @@ const formatDateUTC = (timestamp: number, formatStr: string): string => {
 };
 
 // @para-doc [tax-reporting-spec.md#33-tu-dong-chuan-hoa-noi-dung-dien-giai-getpaymentdescription]
+// @para-doc [#csa-reports-months-display]
 export const getPaymentDescription = (payment: ExportPayment, config: any): string => {
+  let baseServiceName = payment.serviceName || (payment.order ? payment.order.content : 'TT GIA HAN');
+  if (payment.order?.months && payment.order.months > 1) {
+    baseServiceName = `${baseServiceName} (x${payment.order.months} tháng)`;
+  }
+
   const placeholders = {
     customerId: payment.customer?.id || null,
     customerName: payment.customer?.fullName || null,
-    serviceName: payment.serviceName || (payment.order ? payment.order.content : 'TT GIA HAN'),
+    serviceName: baseServiceName,
     serviceDescription: payment.serviceDescription || null,
     orderNumber: payment.order?.orderNumber || null,
     orderContent: payment.order?.content || null,
