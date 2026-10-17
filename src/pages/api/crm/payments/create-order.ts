@@ -32,8 +32,9 @@ export const POST: APIRoute = async (context) => {
     }
 
     // 2. Parse request body
+    // @para-doc [#csa-api-late-assoc-params]
     const body = await context.request.json().catch(() => ({}));
-    const { paymentId, customerId, serviceId, startDate, expiredAt, customPrice, months } = body;
+    const { paymentId, customerId, serviceId, startDate, expiredAt, customPrice, months, category, taxCategory } = body;
 
     if (!paymentId || !customerId || !serviceId) {
       return new Response(JSON.stringify({ error: 'Bad Request: Missing required parameters' }), {
@@ -81,6 +82,8 @@ export const POST: APIRoute = async (context) => {
       staffId: staffId,
       customPrice: customPrice !== undefined ? Number(customPrice) : undefined,
       months: resolvedMonths,
+      category: category === 'non_revenue' ? 'non_revenue' : 'revenue',
+      taxCategory: taxCategory !== undefined ? (taxCategory ? String(taxCategory).trim() : null) : undefined,
     });
 
     return new Response(JSON.stringify({ success: true, orderId: result.orderId }), {

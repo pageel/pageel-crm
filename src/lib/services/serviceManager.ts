@@ -75,6 +75,8 @@ export interface CreateOrderFromPaymentParams {
   staffId?: string | null;
   customPrice?: number;
   months?: number;
+  category?: 'revenue' | 'non_revenue';
+  taxCategory?: string | null;
 }
 
 // @para-doc [services-payments-spec.md#62-logic-xu-ly-late-association-voi-transaction-nguyen-tu]
@@ -120,13 +122,18 @@ export async function createOrderFromPayment(
       const orderId = crypto.randomUUID();
       const orderNumber = `ORD-${Date.now()}-${Math.floor(1000 + Math.random() * 9000)}`;
       
+      // @para-doc [#csa-api-late-assoc-content-months]
+      const orderContent = params.months && params.months > 1
+        ? `Thanh toan dich vu ${targetService.name} (${params.months} thang)`
+        : `Thanh toan dich vu ${targetService.name}`;
+
       await tx.insert(orders).values({
         id: orderId,
         customerId: params.customerId,
         staffId: params.staffId || null,
         orderNumber,
         amount: orderAmount,
-        content: `Thanh toan dich vu ${targetService.name}`,
+        content: orderContent,
         status,
         serviceId: params.serviceId,
         paymentId: params.paymentId,
@@ -138,12 +145,19 @@ export async function createOrderFromPayment(
       });
 
       // 4. Update the relationship in payments table
+      // @para-doc [#csa-api-late-assoc-revenue-sync]
+      const paymentUpdateData: any = {
+        orderId,
+        customerId: params.customerId,
+        category: params.category || 'revenue',
+      };
+      if (params.taxCategory !== undefined) {
+        paymentUpdateData.taxCategory = params.taxCategory;
+      }
+
       await tx
         .update(payments)
-        .set({
-          orderId,
-          customerId: params.customerId,
-        })
+        .set(paymentUpdateData)
         .where(eq(payments.id, params.paymentId));
 
       // 5. If fully paid, activate or extend customer service
