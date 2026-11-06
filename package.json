@@ -1,9 +1,9 @@
 {
   "name": "pageel-crm",
   "type": "module",
-  "version": "0.13.7",
+  "version": "0.13.8",
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=22.23.4"
   },
   "scripts": {
     "dev": "astro dev",
@@ -21,25 +21,26 @@
     "dev:all": "npm run db:generate && npm run db:push:local && npm run dev"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^13.5.2",
-    "@libsql/client": "^0.17.3",
-    "astro": "^6.3.5",
-    "better-sqlite3": "^12.10.0",
-    "drizzle-orm": "^0.45.2",
+    "@astrojs/cloudflare": "^14.4.6",
+    "@libsql/client": "^0.17.4",
+    "astro": "^7.4.7",
+    "better-sqlite3": "^12.11.1",
+    "drizzle-orm": "^0.45.4",
     "exceljs": "^4.4.0",
-    "jszip": "^3.10.1",
-    "wrangler": "^4.93.0"
+    "jszip": "^3.10.2",
+    "wrangler": "^4.158.0"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.9",
+    "@astrojs/check": "^0.9.12",
     "@types/better-sqlite3": "^7.6.13",
     "@types/jszip": "^3.4.0",
-    "@types/node": "^25.9.1",
-    "drizzle-kit": "^0.31.10",
+    "@types/node": "^25.9.9",
+    "drizzle-kit": "^0.31.11",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.6"
+    "vitest": "^4.1.12"
   },
   "overrides": {
-    "vite": "^7"
+    "uuid": "^11.1.1",
+    "esbuild": "^0.28.1"
   }
 }
