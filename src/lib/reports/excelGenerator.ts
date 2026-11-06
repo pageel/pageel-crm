@@ -88,6 +88,8 @@ export const getPaymentDescription = (payment: ExportPayment, config: any): stri
  * resolution. The polyfill is applied right before import.
  */
 // @para-doc [infrastructure.md#exceljs]
+// @para-doc [#csa-sec-dependency-audit]
+// @para-doc [#csa-sc-12]
 const loadExcelJS = async () => {
   // Polyfill process.umask before ExcelJS module initialization
   if (typeof process !== 'undefined') {
